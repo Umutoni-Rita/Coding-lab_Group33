@@ -14,3 +14,8 @@ initialize_system() {
         mkdir reports
     fi
 }
+
+# Orchestration
+main() {
+    initialize_system
+}

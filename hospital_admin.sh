@@ -18,4 +18,5 @@ initialize_system() {
 # Orchestration
 main() {
     initialize_system
+    secure_data
 }

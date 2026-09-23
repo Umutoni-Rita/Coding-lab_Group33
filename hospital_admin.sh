@@ -14,3 +14,11 @@ initialize_system() {
         mkdir reports
     fi
 }
+
+# Orchestration
+main() {
+    initialize_system
+    secure_data
+    echo "System Environment Secured on $(date)"
+}
+main

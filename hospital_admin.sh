@@ -15,6 +15,7 @@ initialize_system() {
     fi
 }
 
+# Permissions
 secure_data() {
     chmod 700 active_logs
     ls -ld active_logs

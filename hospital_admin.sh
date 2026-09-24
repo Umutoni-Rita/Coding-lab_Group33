@@ -15,6 +15,11 @@ initialize_system() {
     fi
 }
 
+secure_data() {
+    chmod 700 active_logs
+    ls -ld active_logs
+}
+
 # Orchestration
 main() {
     initialize_system

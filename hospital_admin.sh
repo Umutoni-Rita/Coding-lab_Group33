@@ -17,8 +17,10 @@ initialize_system() {
 
 # Permissions
 secure_data() {
+
     chmod 700 active_logs
     ls -ld active_logs
+    
 }
 
 # Orchestration

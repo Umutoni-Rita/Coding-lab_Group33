@@ -18,4 +18,11 @@ if [ -f "active_logs/water_usage.log" ]; then
     mv active_logs/water_usage.log archived_logs/water_usage_${timestamp}.log
 fi
 
-echo "Logs successfully moved to archived_logs."
+echo "Logs successfully moved to archived logs."
+
+touch active_logs/heart_rate.log
+touch active_logs/temperature.log
+touch active_logs/water_usage.log
+
+echo "Fresh log files created in active_logs."
+echo "Archive completed at: $(date)"

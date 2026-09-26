@@ -2,6 +2,7 @@
 
 heart_log="active_logs/heart_rate_log.log"
 temp_log="active_logs/temperature_log.log"
+water_log="active_logs/water_usage_log.log"
 alerts_file="reports/critical_alerts.txt"
 
 process_vitals() {
@@ -30,4 +31,31 @@ process_vitals() {
     echo
 }
 
+water_audit() {
+    if [ ! -f "$water_log" ]; then
+        echo "Water usage log is missing. Start the engine first."
+        return 1
+    fi
+
+    stats=$(awk -F' [|] ' '
+        $2 == "ICU_WATER_RESERVE" {
+            total += $3
+            count++
+        }
+        END {
+            if (count > 0)
+                printf "%d %.2f", count, total / count
+        }' "$water_log")
+
+    if [ -z "$stats" ]; then
+        echo "No readings for ICU_WATER_RESERVE yet."
+        return 1
+    fi
+
+    read -r readings average <<< "$stats"
+
+    echo "ICU_WATER_RESERVE average usage: $average L/min ($readings readings)"
+}
+
 process_vitals
+water_audit

@@ -19,7 +19,15 @@ process_vitals() {
 
     grep -h "CRITICAL" "$heart_log" "$temp_log" | awk -F' [|] ' -v OFS=' | ' '{ print $1, $2, $3 }' >> "$alerts_file"
 
+    chmod 600 "$alerts_file"
+
+    heart_alerts=$(grep -c "_HR_" "$alerts_file")
+    temp_alerts=$(grep -c "_TEMP_" "$alerts_file")
+
+    echo "Heart rate alerts:  $heart_alerts"
+    echo "Temperature alerts: $temp_alerts"
     echo "Report saved to $alerts_file"
+    echo
 }
 
 process_vitals

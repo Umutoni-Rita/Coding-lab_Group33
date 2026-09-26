@@ -13,6 +13,13 @@ process_vitals() {
     mkdir -p reports
 
     echo "Scanning vitals for CRITICAL readings..."
+
+    echo "KNH Critical Alerts - generated on $(date)" > "$alerts_file"
+    echo "Timestamp | Device_ID | Value" >> "$alerts_file"
+
+    grep -h "CRITICAL" "$heart_log" "$temp_log" | awk -F' [|] ' -v OFS=' | ' '{ print $1, $2, $3 }' >> "$alerts_file"
+
+    echo "Report saved to $alerts_file"
 }
 
 process_vitals

@@ -41,10 +41,13 @@ water_audit() {
         $2 == "ICU_WATER_RESERVE" {
             total += $3
             count++
+            if (count == 1 || $3 < lowest) lowest = $3
+            if ($3 > highest) highest = $3
+            if ($4 == "HIGH_USAGE") high_usage++
         }
         END {
             if (count > 0)
-                printf "%d %.2f", count, total / count
+                printf "%d %.2f %d %d %d", count, total / count, lowest, highest, high_usage
         }' "$water_log")
 
     if [ -z "$stats" ]; then
@@ -52,9 +55,16 @@ water_audit() {
         return 1
     fi
 
-    read -r readings average <<< "$stats"
+    read -r readings average lowest highest high_usage <<< "$stats"
 
-    echo "ICU_WATER_RESERVE average usage: $average L/min ($readings readings)"
+    printf "\n%s\n" "----------- ICU WATER RESERVE AUDIT -----------"
+    printf "%-20s %s\n" "Audit time:" "$(date '+%Y-%m-%d %H:%M')"
+    printf "%-20s %s\n" "Readings analysed:" "$readings"
+    printf "%-20s %s L/min\n" "Average usage:" "$average"
+    printf "%-20s %s L/min\n" "Lowest reading:" "$lowest"
+    printf "%-20s %s L/min\n" "Highest reading:" "$highest"
+    printf "%-20s %s\n" "High usage alerts:" "$high_usage"
+    printf "%s\n\n" "-----------------------------------------------"
 }
 
 process_vitals

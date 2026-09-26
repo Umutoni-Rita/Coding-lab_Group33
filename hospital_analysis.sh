@@ -67,5 +67,18 @@ water_audit() {
     printf "%s\n\n" "-----------------------------------------------"
 }
 
-process_vitals
-water_audit
+echo "=========================================="
+echo "    KNH Live Data Analysis Dashboard"
+echo "=========================================="
+
+PS3="Choose an option (1-4): "
+
+select option in "Critical vitals report" "ICU water audit" "Run full analysis" "Exit"; do
+    case $REPLY in
+        1) process_vitals ;;
+        2) water_audit ;;
+        3) process_vitals; water_audit ;;
+        4) echo "Closing the dashboard. Goodbye!"; break ;;
+        *) echo "Invalid choice. Please pick a number from 1 to 4." ;;
+    esac
+done

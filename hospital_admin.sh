@@ -1,3 +1,5 @@
+#!/bin/bash
+
 initialize_system() {
     if [ ! -d "active_logs" ]; then
         echo "Creating active_logs directory..."
